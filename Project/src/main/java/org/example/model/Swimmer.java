@@ -3,9 +3,6 @@ package org.example.model;
 import java.time.LocalDate;
 import java.util.Objects;
 
-/**
- * Class for the swimmers who participate at the contest
- */
 public class Swimmer extends Entity<Long> {
     private String firstName;
     private String lastName;
