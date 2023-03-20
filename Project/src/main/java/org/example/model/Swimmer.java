@@ -3,7 +3,7 @@ package org.example.model;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Swimmer extends Entity<Long> {
+public class Swimmer extends Entity<Integer> {
     private String firstName;
     private String lastName;
     private LocalDate birthDate;

@@ -2,29 +2,29 @@ package org.example.model;
 
 import java.util.Objects;
 
-public class Participation extends Entity<Long> {
-    private Long SwimmerId;
-    private Long EventId;
+public class Participation extends Entity<Integer> {
+    private Swimmer Swimmer;
+    private Event Event;
 
-    public Participation(Long swimmerId, Long eventId) {
-        SwimmerId = swimmerId;
-        EventId = eventId;
+    public Participation(Swimmer swimmer, Event event) {
+        Swimmer = swimmer;
+        Event = event;
     }
 
-    public Long getSwimmerId() {
-        return SwimmerId;
+    public Swimmer getSwimmer() {
+        return Swimmer;
     }
 
-    public void setSwimmerId(Long swimmerId) {
-        SwimmerId = swimmerId;
+    public void setSwimmer(Swimmer swimmer) {
+        Swimmer = swimmer;
     }
 
-    public Long getEventId() {
-        return EventId;
+    public Event getEvent() {
+        return Event;
     }
 
-    public void setEventId(Long eventId) {
-        EventId = eventId;
+    public void setEvent(Event event) {
+        Event = event;
     }
 
     @Override
@@ -32,19 +32,19 @@ public class Participation extends Entity<Long> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Participation that = (Participation) o;
-        return Objects.equals(SwimmerId, that.SwimmerId) && Objects.equals(EventId, that.EventId);
+        return Objects.equals(Swimmer, that.Swimmer) && Objects.equals(Event, that.Event);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(SwimmerId, EventId);
+        return Objects.hash(Swimmer, Event);
     }
 
     @Override
     public String toString() {
         return "Participation{" +
-                "SwimmerId=" + SwimmerId +
-                ", TaskId=" + EventId +
+                "Swimmer=" + Swimmer +
+                ", Event=" + Event +
                 '}';
     }
 }

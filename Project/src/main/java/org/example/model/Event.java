@@ -2,11 +2,11 @@ package org.example.model;
 
 import java.util.Objects;
 
-public class Event extends Entity<Long> {
+public class Event extends Entity<Integer> {
     private Integer distance;
-    private Style style;
+    private String style;
 
-    public Event(Integer distance, Style style) {
+    public Event(Integer distance, String style) {
         this.distance = distance;
         this.style = style;
     }
@@ -19,11 +19,11 @@ public class Event extends Entity<Long> {
         this.distance = distance;
     }
 
-    public Style getStyle() {
+    public String getStyle() {
         return style;
     }
 
-    public void setStyle(Style style) {
+    public void setStyle(String style) {
         this.style = style;
     }
 
@@ -40,5 +40,11 @@ public class Event extends Entity<Long> {
         return Objects.hash(distance, style);
     }
 
-
+    @Override
+    public String toString() {
+        return "Event{" +
+                "distance=" + distance +
+                ", style='" + style + '\'' +
+                '}';
+    }
 }

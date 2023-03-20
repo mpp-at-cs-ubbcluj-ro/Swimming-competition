@@ -2,7 +2,7 @@ package org.example.model;
 
 import java.util.Objects;
 
-public class User extends Entity<Long> {
+public class User extends Entity<Integer> {
     private String firstName;
     private String lastName;
     private String email;
