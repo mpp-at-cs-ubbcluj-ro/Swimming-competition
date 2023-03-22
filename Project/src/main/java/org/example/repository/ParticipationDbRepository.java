@@ -24,12 +24,54 @@ public class ParticipationDbRepository implements IParticipationRepository{
     }
     @Override
     public Iterable<Participation> findBySwimmer(Swimmer swimmer) {
-        return null;
+        logger.traceEntry("finding all the participations for the swimmer {}", swimmer);
+        Connection con= dbUtils.getConnection();
+        List<Participation> participations = new ArrayList<>();
+        try(PreparedStatement preSmt=con.prepareStatement("select * from participations where id_swimmer=?")) {
+            preSmt.setInt(1, swimmer.getId());
+            try(ResultSet result=preSmt.executeQuery()) {
+                while(result.next()) {
+                    int id = result.getInt("id_participation");
+                    Integer id_swimmer= result.getInt("id_swimmer");
+                    Integer id_event = result.getInt("id_event");
+                    Event event = eventRepo.findById(id_event);
+                    Participation participation = new Participation(swimmer, event);
+                    participation.setId(id);
+                    participations.add(participation);
+                }
+            }
+        } catch (SQLException e) {
+            logger.error(e);
+            System.err.println("Error DB " + e);
+        }
+        logger.traceExit(participations);
+        return participations;
     }
 
     @Override
     public Iterable<Participation> findByEvent(Event event) {
-        return null;
+        logger.traceEntry("finding all the participations by the event {}", event);
+        Connection con= dbUtils.getConnection();
+        List<Participation> participations = new ArrayList<>();
+        try(PreparedStatement preSmt=con.prepareStatement("select * from participations where id_event=?")) {
+            preSmt.setInt(1, event.getId());
+            try(ResultSet result=preSmt.executeQuery()) {
+                while(result.next()) {
+                    int id = result.getInt("id_participation");
+                    Integer id_swimmer= result.getInt("id_swimmer");
+                    Integer id_event = result.getInt("id_event");
+                    Swimmer swimmer = swimmerRepo.findById(id_swimmer);
+                    Participation participation = new Participation(swimmer, event);
+                    participation.setId(id);
+                    participations.add(participation);
+                }
+            }
+        } catch (SQLException e) {
+            logger.error(e);
+            System.err.println("Error DB " + e);
+        }
+        logger.traceExit(participations);
+        return participations;
     }
 
     @Override
@@ -85,6 +127,7 @@ public class ParticipationDbRepository implements IParticipationRepository{
         logger.traceEntry("finding participation with the id {} ", id);
         Connection con = dbUtils.getConnection();
         try(PreparedStatement preStmt=con.prepareStatement("select * from participations where id_participation=?")) {
+            preStmt.setInt(1, id);
             try(ResultSet result=preStmt.executeQuery()){
                 Integer id_swimmer = result.getInt("id_swimmer");
                 Integer id_event = result.getInt("id_event");

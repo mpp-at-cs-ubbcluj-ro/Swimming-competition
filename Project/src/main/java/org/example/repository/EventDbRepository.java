@@ -70,6 +70,7 @@ public class EventDbRepository implements IEventRepository{
         logger.traceEntry("finding event with the id {} ", id);
         Connection con = dbUtils.getConnection();
         try(PreparedStatement preStmt=con.prepareStatement("select * from events where id_event=?")) {
+            preStmt.setInt(1, id);
             try(ResultSet result=preStmt.executeQuery()){
                 Integer distance = result.getInt("distance");
                 String style = result.getString("style");

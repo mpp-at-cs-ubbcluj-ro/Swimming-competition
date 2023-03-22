@@ -74,6 +74,7 @@ public class UserDbRepository implements IUserRepository {
         logger.traceEntry("finding user with the id {} ", id);
         Connection con = dbUtils.getConnection();
         try(PreparedStatement preStmt=con.prepareStatement("select * from users where id_user=?")) {
+            preStmt.setInt(1, id);
             try(ResultSet result=preStmt.executeQuery()){
                 String first_name = result.getString("first_name");
                 String last_name = result.getString("last_name");
@@ -123,6 +124,7 @@ public class UserDbRepository implements IUserRepository {
         logger.traceEntry("finding user with the email {} ", email);
         Connection con = dbUtils.getConnection();
         try(PreparedStatement preStmt=con.prepareStatement("select * from users where email=?")) {
+            preStmt.setString(1, email);
             try(ResultSet result=preStmt.executeQuery()){
                 Integer id = result.getInt("id_user");
                 String first_name = result.getString("first_name");

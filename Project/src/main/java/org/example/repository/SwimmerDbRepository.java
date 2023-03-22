@@ -73,6 +73,7 @@ public class SwimmerDbRepository implements ISwimmerRepository{
         logger.traceEntry("finding swimmer with the id {} ", id);
         Connection con = dbUtils.getConnection();
         try(PreparedStatement preStmt=con.prepareStatement("select * from swimmers where id_swimmer=?")) {
+            preStmt.setInt(1, id);
             try(ResultSet result=preStmt.executeQuery()){
                 String first_name = result.getString("first_name");
                 String last_name = result.getString("last_name");
