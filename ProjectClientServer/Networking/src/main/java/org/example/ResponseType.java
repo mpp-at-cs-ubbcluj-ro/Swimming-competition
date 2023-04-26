@@ -1,0 +1,5 @@
+package org.example;
+
+public enum ResponseType {
+    OK, ERROR, LOGIN, LOGOUT, GET_EVENTS, UPDATE, GET_PARTICIPANTS, ADD_PARTICIPATION, ADD_SWIMMER, FIND_LAST_SWIMMER;
+}

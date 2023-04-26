@@ -33,6 +33,11 @@ public class Service {
         swimmerRepository.add(swimmer);
     }
     public void addParticipation(Participation participation) {
+        Event event = participation.getEvent();
+        for(Event e: eventsForSwimmer(participation.getSwimmer())){
+            if(event.equals(e))
+                throw new RepositoryException("This swimmer is already enrolled at this event!");
+        }
         participationRepository.add(participation);
     }
     public List<Event> getAllEvents() {
@@ -44,6 +49,15 @@ public class Service {
     }
     public List<Swimmer> getAllSwimmers() {
         return StreamSupport.stream(swimmerRepository.findAll().spliterator(), false).toList();
+    }
+    public List<Event> getCheckedEvents() {
+        List<Event> checkedEvents = new ArrayList<>();
+        List<Event> events = this.getAllEvents();
+        for(Event e: events) {
+            if(e.getSelect().isSelected())
+                checkedEvents.add(e);
+        }
+        return checkedEvents;
     }
 
     /*public List<EventNrSwimmersDBO> getEventNrSwimmers() {

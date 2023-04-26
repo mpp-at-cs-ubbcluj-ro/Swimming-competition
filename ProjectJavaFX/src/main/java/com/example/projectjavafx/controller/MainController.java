@@ -3,6 +3,7 @@ package com.example.projectjavafx.controller;
 import com.example.projectjavafx.model.Event;
 import com.example.projectjavafx.model.Participation;
 import com.example.projectjavafx.model.Swimmer;
+import com.example.projectjavafx.repository.RepositoryException;
 import com.example.projectjavafx.service.Service;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -17,6 +18,7 @@ import javafx.util.Callback;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainController {
@@ -33,6 +35,8 @@ public class MainController {
     TableColumn<Event, String> tableColumnStyle;
     @FXML
     TableColumn<Event, Integer> tableColumnNrSwimmers;
+    @FXML
+    TableColumn<Event, String> tableColumnSelection;
     @FXML
     TableColumn<Participation, String> tableColumnFirstName;
     @FXML
@@ -71,8 +75,9 @@ public class MainController {
                 return new SimpleIntegerProperty(nrSwimmers).asObject();
             }
         });
+        tableColumnSelection.setCellValueFactory(new PropertyValueFactory<Event, String>("select"));
         tableViewEvents.setItems(events);
-        tableViewEvents.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        //tableViewEvents.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
     @FXML
@@ -81,13 +86,6 @@ public class MainController {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Participation, String> p) {
                 return new SimpleStringProperty(p.getValue().getSwimmer().getFirstName());
-            }
-        });
-
-        tableColumnLastName.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Participation, String>, ObservableValue<String>>() {
-            @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Participation, String> p) {
-                return new SimpleStringProperty(p.getValue().getSwimmer().getLastName());
             }
         });
 
@@ -136,15 +134,28 @@ public class MainController {
     }
 
     public void handleAddButton() {
-        List<Event> events = tableViewEvents.getSelectionModel().getSelectedItems();
+        //List<Event> events = tableViewEvents.getSelectionModel().getSelectedItems();
+        //List<Event> selectedEvents = service.getCheckedEvents();
+        List<Event> selectedEvents = new ArrayList<>();
+        for(Event e: this.events) {
+            if(e.getSelect().isSelected())
+                selectedEvents.add(e);
+        }
         LocalDate birth_date = datePicker.getValue();
         Swimmer swimmer = new Swimmer(textFieldFirstName.getText(), textFieldLastName.getText(), birth_date);
         int id = service.getAllSwimmers().size() + 1;
         service.addSwimmer(swimmer);
         swimmer.setId(id);
-        for(Event e: events) {
-            Participation p = new Participation(swimmer, e);
-            service.addParticipation(p);
+        try {
+            for (Event e : selectedEvents) {
+                Participation p = new Participation(swimmer, e);
+                service.addParticipation(p);
+            }
+        } catch (RepositoryException ex) {
+            Alert alert = new Alert(Alert.AlertType.NONE);
+            alert.setAlertType(Alert.AlertType.ERROR);
+            alert.setContentText(ex.toString());
+            alert.show();
         }
         textFieldFirstName.clear();
         textFieldLastName.clear();

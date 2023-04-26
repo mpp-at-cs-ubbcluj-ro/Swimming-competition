@@ -1,0 +1,6 @@
+package org.example;
+
+public enum RequestType {
+    LOGIN, LOGOUT, GET_EVENTS, GET_PARTICIPANTS, ADD_PARTICIPATION, ADD_SWIMMER, FIND_LAST_SWIMMER, UPDATE;
+}
+

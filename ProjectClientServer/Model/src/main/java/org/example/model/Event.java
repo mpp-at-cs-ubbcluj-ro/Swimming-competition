@@ -1,18 +1,18 @@
-package com.example.projectjavafx.model;
+package org.example.model;
 
 import javafx.scene.control.CheckBox;
 
-import java.nio.channels.AsynchronousChannel;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Event extends Entity<Integer> {
+public class Event extends Entity<Integer> implements Serializable {
     private Integer distance;
     private String style;
-    private CheckBox select;
+   // private CheckBox select;
     public Event(Integer distance, String style) {
         this.distance = distance;
         this.style = style;
-        this.select = new CheckBox();
+        //this.select = new CheckBox();
     }
 
     public Integer getDistance() {
@@ -50,10 +50,10 @@ public class Event extends Entity<Integer> {
                 "," + style + "\n";
     }
 
-    public CheckBox getSelect() {
+    /*public CheckBox getSelect() {
         return select;
     }
     public void setSelect(CheckBox select) {
         this.select = select;
-    }
+    }*/
 }
