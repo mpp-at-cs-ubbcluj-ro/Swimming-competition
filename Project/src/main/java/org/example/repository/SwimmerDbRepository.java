@@ -7,6 +7,7 @@ import org.example.utils.JdbcUtils;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -79,6 +80,7 @@ public class SwimmerDbRepository implements ISwimmerRepository{
                 String last_name = result.getString("last_name");
                 String birth_date_string = result.getString("birth_date");
                 LocalDate birth_date = LocalDate.parse(birth_date_string);
+                //LocalDateTime birthDate = birth_date.atTime(0,0,0);
                 Swimmer swimmer = new Swimmer(first_name, last_name, birth_date);
                 swimmer.setId(id);
                 logger.trace("Found {} instance", result);

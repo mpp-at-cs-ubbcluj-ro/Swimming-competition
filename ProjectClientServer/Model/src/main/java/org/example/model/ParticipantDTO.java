@@ -9,6 +9,7 @@ public class ParticipantDTO implements Serializable {
     private Integer age;
     private String events;
 
+    public ParticipantDTO(){ }
     public ParticipantDTO(String firstName, String lastName, Integer age, String events) {
         this.firstName = firstName;
         this.lastName = lastName;

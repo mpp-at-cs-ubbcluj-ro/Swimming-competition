@@ -13,6 +13,11 @@ public class EventDTO extends Entity<Integer> implements Serializable {
         this.nrSwimmers = nrSwimmers;
     }
 
+    public EventDTO()
+    {
+
+    }
+
     public int getDistance() {
         return distance;
     }

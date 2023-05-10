@@ -10,6 +10,7 @@ import org.example.service.IServices;
 import org.example.service.ServiceException;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -95,9 +96,11 @@ public class ServicesImpl implements IServices {
     public synchronized ParticipantDTO[] getParticipants(Event e) {
         List<ParticipantDTO> participantsList = new ArrayList<>();
         for(Participation p: participationsByEvent(e)) {
-            LocalDate date1 = LocalDate.now();
-            LocalDate date2 = p.getSwimmer().getBirthDate();
-            Period period = date2.until(date1);
+            LocalDateTime date1 = LocalDateTime.now();
+            LocalDateTime date2 = p.getSwimmer().getBirthDate();
+            LocalDate date11 = date1.toLocalDate();
+            LocalDate date22 = date2.toLocalDate();
+            Period period = date22.until(date11);
             int years = period.getYears();
 
             String events = this.eventsForSwimmer(p.getSwimmer()).toString();

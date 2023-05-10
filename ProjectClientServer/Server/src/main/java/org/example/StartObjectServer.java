@@ -5,6 +5,7 @@ import org.example.service.IServices;
 import org.example.utils.AbstractServer;
 import org.example.utils.RpcConcurrentServer;
 import org.example.utils.ServerException;
+import org.hibernate.dialect.utils.UserHibernate;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -20,7 +21,9 @@ public class StartObjectServer {
             System.err.println("Cannot find server.properties "+e);
             return;
         }
-        IUserRepository userRepo = new UserDbRepository(serverProps);
+        //IUserRepository userRepo = new UserDbRepository(serverProps);
+
+        IUserRepository userRepo = new UserHibernate();
         IEventRepository eventRepo = new EventDbRepository(serverProps);
         ISwimmerRepository swimmerRepo = new SwimmerDbRepository(serverProps);
         IParticipationRepository participationRepo = new ParticipationDbRepository(serverProps, eventRepo, swimmerRepo);

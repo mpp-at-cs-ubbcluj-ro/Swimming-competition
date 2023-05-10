@@ -1,0 +1,76 @@
+syntax="proto3";
+package swimmers.protocol;
+
+option java_package = "org.example.protobuf";
+option java_outer_classname = "SwimmersProtobufs";
+
+message User{
+  int32 id=1;
+  string firstName=2;
+  string lastName=3;
+  string email=4;
+  string password=5;
+}
+
+message Event{
+  int32 id=1;
+  int32 distance=2;
+  string style=3;
+}
+
+message Swimmer{
+  int32 id=1;
+  string firstName=2;
+  string lastName=3;
+  string birthDate=4;
+}
+
+message Participation{
+  int32 id=1;
+  Swimmer swimmer=2;
+  Event event=3;
+}
+
+message EventDTO{
+  int32 id=1;
+  int32 numberSwimmers=2;
+  int32 distance=3;
+  string style=4;
+}
+
+message ParticipantDTO{
+  string firstName=1;
+  string lastName=2;
+  int32 age=3;
+  string events=4;
+
+}
+
+message Request {
+  enum Type {Unkown = 0; Login = 1; Logout = 2; GetEvents=3; GetParticipants=4; AddParticipation=5; AddSwimmer=6; FindLastSwimmer=7; Update=8;}
+
+  // Identifies which request is filled in.
+  Type type = 1;
+
+  // One of the following will be filled in, depending on the type.
+  oneof payload{
+    User user = 2;
+    Participation participation = 3;
+    Swimmer swimmer = 4;
+    Event event = 5;
+  }
+}
+
+message Response{
+  enum Type { Unknown = 0; Ok = 1; Error = 2; Login = 3; GetEvents = 4; Update=5; GetParticipants=6; AddSwimmer=7; AddParticipation=8; FindLastSwimmer=9;  }
+
+  // Identifies which request is filled in.
+  Type type = 1;
+
+  // One of the following will be filled in, depending on the type.
+  string error = 2;
+  repeated EventDTO events = 3;
+  repeated ParticipantDTO participants = 4;
+  Swimmer swimmer = 5;
+  User user = 6;
+}

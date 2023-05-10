@@ -2,12 +2,16 @@ package org.example.model;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.*;
 
+@javax.persistence.Entity
+@Table(name = "users")
 public class User extends Entity<Integer> implements Serializable {
     private String firstName;
     private String lastName;
     private String email;
     private String password;
+    public User() { }
 
     public User(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
@@ -16,6 +20,20 @@ public class User extends Entity<Integer> implements Serializable {
         this.password = password;
     }
 
+    @Override
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_user", updatable = false, nullable = false)
+    public Integer getId() {
+        return super.getId();
+    }
+
+    @Override
+    public void setId(Integer id) {
+        super.setId(id);
+    }
+
+    @Column(name = "first_name")
     public String getFirstName() {
         return firstName;
     }
@@ -24,6 +42,7 @@ public class User extends Entity<Integer> implements Serializable {
         this.firstName = firstName;
     }
 
+    @Column(name = "last_name")
     public String getLastName() {
         return lastName;
     }
@@ -32,6 +51,7 @@ public class User extends Entity<Integer> implements Serializable {
         this.lastName = lastName;
     }
 
+    @Column(name = "email")
     public String getEmail() {
         return email;
     }
@@ -40,6 +60,7 @@ public class User extends Entity<Integer> implements Serializable {
         this.email = email;
     }
 
+    @Column(name ="password")
     public String getPassword() {
         return password;
     }

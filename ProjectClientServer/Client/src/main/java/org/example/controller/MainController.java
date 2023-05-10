@@ -21,6 +21,7 @@ import org.example.service.IServices;
 import org.example.service.ServiceException;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -119,13 +120,15 @@ public class MainController implements IObserver{
         }
 
 
-        LocalDate birth_date = datePicker.getValue();
+        LocalDateTime birth_date = datePicker.getValue().atTime(0,0,0);
         Swimmer swimmer = new Swimmer(textFieldFirstName.getText(), textFieldLastName.getText(), birth_date);
         server.addSwimmer(swimmer);
         Swimmer addedSwimmer = server.findLastSwimmer();
+
         try {
             for (Event e : selectedEvents) {
                 Participation p = new Participation(addedSwimmer, e);
+                System.out.println("PARTICIPATION MAIN" + p);
                 server.addParticipation(p);
             }
             server.updateEvent();

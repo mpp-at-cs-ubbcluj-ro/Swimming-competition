@@ -2,14 +2,15 @@ package org.example.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Swimmer extends Entity<Integer> implements Serializable {
     private String firstName;
     private String lastName;
-    private LocalDate birthDate;
-
-    public Swimmer(String firstName, String lastName, LocalDate birthDate) {
+    private LocalDateTime birthDate;
+    public Swimmer() { }
+    public Swimmer(String firstName, String lastName, LocalDateTime birthDate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
@@ -30,11 +31,11 @@ public class Swimmer extends Entity<Integer> implements Serializable {
         this.lastName = lastName;
     }
 
-    public LocalDate getBirthDate() {
+    public LocalDateTime getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
+    public void setBirthDate(LocalDateTime birthDate) {
         this.birthDate = birthDate;
     }
 

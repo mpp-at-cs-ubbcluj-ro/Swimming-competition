@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -81,11 +82,21 @@ public class SwimmerDbRepository implements ISwimmerRepository {
                 String first_name = result.getString("first_name");
                 String last_name = result.getString("last_name");
                 String birth_date_string = result.getString("birth_date");
-                LocalDate birth_date = LocalDate.parse(birth_date_string);
-                Swimmer swimmer = new Swimmer(first_name, last_name, birth_date);
-                swimmer.setId(id);
-                logger.trace("Found {} instance", result);
-                return swimmer;
+                //LocalDateTime birth_date = LocalDateTime.parse(birth_date_string);
+                try {
+                    LocalDate birthDate = LocalDate.parse(birth_date_string);
+                    LocalDateTime birth_date = birthDate.atTime(0,0,0);
+                    Swimmer swimmer = new Swimmer(first_name, last_name, birth_date);
+                    swimmer.setId(id);
+                    logger.trace("Found {} instance", result);
+                    return swimmer;
+                } catch (Exception ex) {
+                    LocalDateTime birth_date = LocalDateTime.parse(birth_date_string);
+                    Swimmer swimmer = new Swimmer(first_name, last_name, birth_date);
+                    swimmer.setId(id);
+                    logger.trace("Found {} instance", result);
+                    return swimmer;
+                }
             }
         }catch (SQLException ex) {
             logger.error(ex);
@@ -107,10 +118,18 @@ public class SwimmerDbRepository implements ISwimmerRepository {
                     String first_name = result.getString("first_name");
                     String last_name = result.getString("last_name");
                     String birth_date_string = result.getString("birth_date");
-                    LocalDate birth_date = LocalDate.parse(birth_date_string);
-                    Swimmer swimmer = new Swimmer(first_name, last_name, birth_date);
-                    swimmer.setId(id);
-                    swimmers.add(swimmer);
+                    try {
+                        LocalDate birthDate = LocalDate.parse(birth_date_string);
+                        LocalDateTime birth_date = birthDate.atTime(0,0,0);
+                        Swimmer swimmer = new Swimmer(first_name, last_name, birth_date);
+                        swimmer.setId(id);
+                        swimmers.add(swimmer);
+                    } catch (Exception ex) {
+                        LocalDateTime birth_date = LocalDateTime.parse(birth_date_string);
+                        Swimmer swimmer = new Swimmer(first_name, last_name, birth_date);
+                        swimmer.setId(id);
+                        swimmers.add(swimmer);
+                    }
                 }
             }
         } catch (SQLException e) {
